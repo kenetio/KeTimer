@@ -26,6 +26,8 @@ delt = pygame.transform.scale(delt, ((delt.get_width()//3*2), (delt.get_height()
 ic = pygame.image.load('img/icon.png')
 pygame.display.set_icon(ic)
 
+recfile = open('record.txt','r+')
+
 def format(tim):
     tim = round(tim*100)
     mseconds = str(tim % 100)
@@ -55,7 +57,7 @@ def main():
     actext1 = "-"
     delrect = delt.get_rect(center=(500, 425))
     rectext = "-"
-    rel = 99999999999999999
+    rel = int(*recfile)
     rotates = ["R", "D", "L", "U", "F", "B"]
     dops = ["", "'", "2"]
     skrambl = ""
@@ -75,6 +77,8 @@ def main():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                recfile.write(str(((rel) * 100) - ((rel) * 100) % 1)[0:-2])
+                recfile.close()
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
@@ -91,7 +95,10 @@ def main():
                         if len(img_times) > 12:
                             img_times.pop(0)
                         if rel > tim:
+                            recfile.seek(0)
                             rel = tim
+                            recfile.truncate()
+
                             rectext = format(rel)
                         skrambl = ""
                         latest = rotates[randint(0, 5)]
