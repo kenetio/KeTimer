@@ -1,6 +1,7 @@
 import pygame
 import time
 import sys
+from random import randint
 
 pygame.init()
 
@@ -12,14 +13,18 @@ clock = pygame.time.Clock()
 
 font = pygame.font.Font('fonts/DroidSansMono.ttf', 84)
 font2 = pygame.font.Font('fonts/DroidSansMono.ttf', 24)
+font3 = pygame.font.Font('fonts/DroidSansMono.ttf', 18)
 black = (18, 17, 19)
 green = (0, 179, 0)
 red = (214, 37, 21)
-gray = (54, 59, 57)
+gray = (104, 109, 107)
 
 
 delt = pygame.image.load('img/Delete.png')
 delt = pygame.transform.scale(delt, ((delt.get_width()//3*2), (delt.get_height()//3*2)))
+
+ic = pygame.image.load('img/icon.png')
+pygame.display.set_icon(ic)
 
 def format(tim):
     tim = round(tim*100)
@@ -51,6 +56,18 @@ def main():
     delrect = delt.get_rect(center=(500, 425))
     rectext = "-"
     rel = 99999999999999999
+    rotates = ["R", "D", "L", "U", "F", "B"]
+    dops = ["", "'", "2"]
+    skrambl = ""
+    latest = rotates[randint(0, 5)]
+    for i in range(randint(20, 22)):
+        new = rotates[randint(0,5)]
+        while new == latest:
+            new = rotates[randint(0, 5)]
+        latest = new
+        skrambl += new + dops[randint(0, 2)] + " "
+    sctext = font3.render(skrambl, True, gray)
+    screct = sctext.get_rect(center = (500, 35))
     while running:
         clock.tick(fps)
 
@@ -76,6 +93,16 @@ def main():
                         if rel > tim:
                             rel = tim
                             rectext = format(rel)
+                        skrambl = ""
+                        latest = rotates[randint(0, 5)]
+                        for i in range(randint(20, 22)):
+                            new = rotates[randint(0, 5)]
+                            while new == latest:
+                                new = rotates[randint(0, 5)]
+                            latest = new
+                            skrambl += new + dops[randint(0, 2)] + " "
+                        sctext = font3.render(skrambl, True, gray)
+                        screct = sctext.get_rect(center=(500, 35))
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_SPACE:
                     if ready == True:
@@ -115,6 +142,7 @@ def main():
         sc.blit(rec, (20, 460))
         if ready == False and timer_flag == False and (tim > 0 and not s == "00:00.00"):
             sc.blit(delt, delrect)
+        sc.blit(sctext, screct)
 
         pygame.display.update()
 
