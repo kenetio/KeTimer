@@ -61,6 +61,8 @@ def main():
     if rel != 9999999999999999999999999999999.99:
         rectext = format(rel)
     pstrel = rel
+    recfile.seek(0)
+    recfile.truncate()
     print(rel)
     rotates = ["R", "D", "L", "U", "F", "B"]
     dops = ["", "'", "2"]
@@ -102,6 +104,7 @@ def main():
                             print(tim)
                             print(rel)
                             recfile.seek(0)
+                            pstrel = rel
                             rel = tim
                             recfile.truncate()
 
@@ -133,6 +136,9 @@ def main():
                         if ready == False and timer_flag == False and len(times):
                             tim = 0
                             s = "00:00.00"
+                            if times[-1] == rel:
+                                rel = pstrel
+                            rectext = format(rel)      
                             times.pop(-1)
                             img_times.pop(-1)
 
