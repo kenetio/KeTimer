@@ -57,7 +57,11 @@ def main():
     actext1 = "-"
     delrect = delt.get_rect(center=(500, 425))
     rectext = "-"
-    rel = int(*recfile)
+    rel = int(*recfile)/100
+    if rel != 9999999999999999999999999999999.99:
+        rectext = format(rel)
+    pstrel = rel
+    print(rel)
     rotates = ["R", "D", "L", "U", "F", "B"]
     dops = ["", "'", "2"]
     skrambl = ""
@@ -95,6 +99,8 @@ def main():
                         if len(img_times) > 12:
                             img_times.pop(0)
                         if rel > tim:
+                            print(tim)
+                            print(rel)
                             recfile.seek(0)
                             rel = tim
                             recfile.truncate()
