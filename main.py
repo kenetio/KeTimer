@@ -109,6 +109,9 @@ def main():
                             recfile.truncate()
 
                             rectext = format(rel)
+
+
+
                         skrambl = ""
                         latest = rotates[randint(0, 5)]
                         for i in range(randint(20, 22)):
